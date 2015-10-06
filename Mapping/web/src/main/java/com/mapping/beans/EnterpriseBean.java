@@ -39,7 +39,7 @@ public class EnterpriseBean implements Serializable{
 	
 	//asdasd
 
-
+//SDASDASD
 
 	public void setEnterpriseList(List<Enterprise> enterpriseList) {
 		this.enterpriseList = enterpriseList;
