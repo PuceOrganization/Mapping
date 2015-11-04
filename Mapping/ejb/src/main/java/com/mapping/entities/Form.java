@@ -1,7 +1,12 @@
 package com.mapping.entities;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
+
 import java.util.Date;
 
 
@@ -11,6 +16,8 @@ import java.util.Date;
  */
 @Entity
 @Table(name="form")
+@XmlAccessorType(XmlAccessType.PUBLIC_MEMBER)
+@XmlType(name = "Form", namespace = "form")
 public class Form implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -18,7 +25,7 @@ public class Form implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="USR_ID")
 	private int usrId;
-
+	
 	@Column(name="FRM_CREATION_DATE")
 	private Date frmCreationDate;
 

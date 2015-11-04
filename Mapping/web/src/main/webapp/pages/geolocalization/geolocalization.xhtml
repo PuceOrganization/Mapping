@@ -6,39 +6,40 @@
 
 	<ui:define name="head">
 		<script type="text/javascript">
-            function skinChart() {
-                this.cfg.shadow = false;
-                this.cfg.title='';
-                this.cfg.seriesColors = ['#FF4081', '#FBB040', '#1C75BC'];
-                this.cfg.grid = {
-                    background: '#ffffff',
-                    borderColor: '#ffffff',
-                    gridLineColor: '#E8E8E8',
-                    shadow: false,
-                };
-                this.cfg.axesDefaults = {
-                    rendererOptions: {
-                        textColor: '#778D9B'
-                    }
-                };
-                this.cfg.seriesDefaults = {
-                    shadow: false,
-                    markerOptions: {
-                        shadow: false
-                    }
-                }
-            }
 
-            function skinPie() {
-                this.cfg.seriesColors = ['#dae8ef', '#27aae1', '#33ccff', '#9fadb5'];
-                this.cfg.grid = {
-                    background: '#ffffff',
-                    borderColor: '#eaeaea',
-                    gridLineColor: '#e5ebf0',
-                    shadow: false,
-                    borderWidth: 0
-                };
-                this.cfg.seriesDefaults.shadow = false;
+
+            var currentMarker = null;
+            
+            function handlePointClick(event) {
+                if(currentMarker === null) {
+                    document.getElementById('geoForm:lat').value = event.latLng.lat();
+                    document.getElementById('geoForm:lng').value = event.latLng.lng();
+         
+                    currentMarker = new google.maps.Marker({
+                        position:new google.maps.LatLng(event.latLng.lat(), event.latLng.lng())
+                    });
+         
+                    PF('map').addOverlay(currentMarker);
+         
+                    PF('dlg').show();
+                }   
+            }
+         
+            function markerAddComplete() {
+                var title = document.getElementById('geoForm:title');
+                currentMarker.setTitle(title.value);
+                title.value = "";
+         
+                currentMarker = null;
+                PF('geoForm:dlg').hide();
+            }
+         
+            function cancel() {
+                PF('geoForm:dlg').hide();
+                currentMarker.setMap(null);
+                currentMarker = null;
+         
+                return false;
             }
         </script>
 		<style type="text/css">
@@ -50,92 +51,35 @@
 	
 	<ui:define name="content">
 		<h:form id="geoForm">
-		<div class="Container100">
-            <div class="ContainerIndent">
-                <div class="Card ShadowEffect  ">
-                        <div class="ContainerIndent">
-                          	<h2 class="BigTopic">Búsqueda</h2>
-                          	
-                          	<div class="Container60 Responsive50">
-                            <p:panelGrid columns="2" layout="grid" style="border:0px !important; background:none;" styleClass="FormContent">
-                                <p:inputText styleClass="Wid90" placeholder="Grupo" value="#{GeolocalizationBean.geoSearch.GeoName}"/>
-                                <p:inputText styleClass="Wid90" placeholder="Descricpción" value="#{groupBean.groupSearch.grpDescription}"/>
-                                
-                            </p:panelGrid>
-                            </div>
-                            <div class="Container40 Responsive50">
-                            <p:panelGrid columns="3" layout="grid" style="border:0px !important; background:none;" styleClass="FormContent">
-								 <p:commandButton value="Buscar"  styleClass="PurpleButton" actionListener="#{groupBean.search()}"/>
-								 <p:commandButton value="Limpiar" styleClass="PurpleButton" actionListener="#{groupBean.clean()}"/>
-								 <p:commandButton icon="fa fa-child Fs16 White" styleClass="BlueTextButton RaisedButton" onclick="PF('dlg2').show();"/>                                
-                            </p:panelGrid>
-                            </div>
-                        </div>
-                    
-                </div>
-            </div>
-        </div>
-        
-        <div class="Container100">
-            <div class="ContainerIndent">
-                <div class="Card ShadowEffect">
-                    <p:dataTable id="groupTable" var="group" value="#{groupBean.groupList}">
-
-						<p:column headerText="Grupo:">
-							<h:outputText value="#{group.grpName}" />
-						</p:column>
-
-						<p:column headerText="Descripción">
-							<h:outputText value="#{group.grpDescription}" />
-						</p:column>
-
-						<p:column headerText="Editar">
-							<center>
-								<p:commandButton icon="fa fa-pencil Fs16 White" styleClass="BlueTextButton RaisedButton"
-									actionListener="#{groupBean.edit(group)}"
-									/>
-								<p:commandButton icon="fa fa-trash Fs16 White" styleClass="BlueTextButton RaisedButton"
-									actionListener="#{groupBean.delete(group)}"
-									/>
-							</center>
-						</p:column>
-					</p:dataTable>
-					
-					<p:dialog id="insertDialog" header="Grupo"
-					widgetVar="dlg2" height="490" width="500">
-					<p:ajax event="close" listener="#{groupBean.handleClose}" />
-					<h:panelGrid columns="2" cellpadding="2" style="margin:0 auto;">
-
-						<h:outputText value="Grupo:" />
-						<p:inputText value="#{groupBean.group.grpName}"
-							style="width: 100%;" />
-
-						<h:outputText value="Descripción:" />
-						<p:inputText value="#{groupBean.group.grpDescription}"
-							style="width: 100%;" />
-												
-							<f:selectItem itemLabel="Seleccione Uno" itemValue="#{null}" />
-							
-							<p:column>
-								
-							</p:column>
-						
-
-						
-						<p:spacer width="100" height="20" />
-						<p:spacer width="100" height="10" />
-					</h:panelGrid>
-
-					<center>
-						<p:commandButton value="Guardar"
-							actionListener="#{groupBean.save()}" />
-					</center>
-
-
-				</p:dialog>
-                </div>
-            </div>
-        </div>
+			<p:growl id="growl" showDetail="true" />
+			<div class="Container100">
+	            <div class="ContainerIndent">
+	                <div class="Card ShadowEffect  ">
+	                        <div class="ContainerIndent">
+	                          	<p:gmap id="gmap" center="36.890257,30.707417" zoom="13" type="HYBRID" style="width:100%;height:400px"
+    								model="#{geoBean.emptyModel}" onPointClick="handlePointClick(event);" widgetVar="map" />
+	                        </div>	
+	                    
+	                </div>
+	            </div>
+	        </div>
+	        
+	        <p:dialog widgetVar="dlg" showEffect="fade">
+		        <h:panelGrid columns="2">
+		            <h:outputLabel for="title" value="Title:" />
+		            <p:inputText id="title" value="#{geoBean.title}" />
+		 
+		            <f:facet name="footer">
+		                <p:commandButton value="Add" actionListener="#{geoBean.addMarker}" oncomplete="markerAddComplete()" />
+		                <p:commandButton value="Cancel" onclick="return cancel()" />
+		            </f:facet>
+		        </h:panelGrid>
+		 
+		        <h:inputHidden id="lat" value="#{geoBean.lat}" />
+		        <h:inputHidden id="lng" value="#{geoBean.lng}" />
+		        
+		        
+			</p:dialog>
         </h:form>
 	</ui:define>
 

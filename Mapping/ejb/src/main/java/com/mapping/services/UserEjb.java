@@ -42,7 +42,7 @@ public class UserEjb extends GenericDAOImpl<User, String>{
 	public User findByName(String user){
 		User userFinded = new User();
 		List<User> list = new ArrayList<User>();
-		String query = "SELECT u FROM User u where u.usrNickname ='"+user+"'";
+		String query = "SELECT u FROM User u where u.usrNickName ='"+user+"'";
 		try {
 			list = find(query);
 		} catch (Exception e) {

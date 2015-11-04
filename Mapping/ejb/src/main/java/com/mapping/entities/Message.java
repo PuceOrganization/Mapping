@@ -1,9 +1,7 @@
 package com.mapping.entities;
 
 import java.io.Serializable;
-
 import javax.persistence.*;
-
 import java.util.Date;
 
 
@@ -40,9 +38,28 @@ public class Message implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="USR_ID")
 	private User user;
+	
+	private String userMessage;
+	
+	private boolean updateList;
 
 	public Message() {
 	}
+	
+	public Message(String text){
+		this.mesText = text;
+	}
+	
+	public Message(String text, boolean updateList) {
+        this.mesText = text;
+        this.updateList = updateList;
+    }
+	
+	public Message(String user, String text, boolean updateList) {
+        this.mesText = text;
+        this.userMessage = user;
+        this.updateList = updateList;
+    }
 
 	public int getMesId() {
 		return this.mesId;
@@ -72,8 +89,9 @@ public class Message implements Serializable {
 		return this.mesText;
 	}
 
-	public void setMesText(String mesText) {
+	public Message setMesText(String mesText) {
 		this.mesText = mesText;
+		return this;
 	}
 
 	public Receptor getReceptor() {
@@ -91,5 +109,25 @@ public class Message implements Serializable {
 	public void setUser(User user) {
 		this.user = user;
 	}
+	
 
+	public String getUserMessage() {
+		return userMessage;
+	}
+
+
+
+	public Message setUserMessage(String userMessage) {
+		this.userMessage = userMessage;
+		return this;
+	}
+
+	public boolean isUpdateList() {
+		return updateList;
+	}
+
+	public void setUpdateList(boolean updateList) {
+		this.updateList = updateList;
+	}
+	
 }
