@@ -1,7 +1,13 @@
 package com.mapping.entities;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
 import java.util.Date;
 import java.util.List;
 
@@ -12,26 +18,32 @@ import java.util.List;
  */
 @Entity
 @Table(name="groups")
-
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "Group",namespace="group")
 public class Group implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="GRP_ID")
+	@XmlElement(name = "grpId")
 	private int grpId;
 
 	
 	@Column(name="GRP_CREATION_DATE")
+	@XmlElement(name = "grpCreationDate")
 	private Date grpCreationDate;
 
 	@Column(name="GRP_DESCRIPTION")
+	@XmlElement(name = "grpDescription")
 	private String grpDescription;
 
 	@Column(name="GRP_NAME")
+	@XmlElement(name = "grpName")
 	private String grpName;
 
 	@Column(name="GRP_STATE")
+	@XmlElement(name = "grpState")
 	private String grpState;
 
 	//bi-directional many-to-one association to Enterprise

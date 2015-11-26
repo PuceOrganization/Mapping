@@ -32,6 +32,8 @@ public class PruebaBean implements Serializable{
 	private User username = new User();
 	
     private User privateUser = new User();
+    
+    private User sendUser = new User();
  
     private String privateMessage = new String();
      
@@ -47,6 +49,8 @@ public class PruebaBean implements Serializable{
 	UserEjb userAction;
 	
 	public void prueba(User user){
+		sendUser = user;
+		RequestContext.getCurrentInstance().execute("PF('pChat').show();");
 		System.out.println("Entro");
 		System.out.println(user.getUsrName());
 	}
@@ -100,7 +104,9 @@ public class PruebaBean implements Serializable{
     }
      
     public void sendPrivate() {
-        eventBus.publish(CHANNEL + privateUser, "[PM] " + username.getUsrNickName() + ": " + privateMessage);
+    	RequestContext requestContext = RequestContext.getCurrentInstance();
+    	requestContext.execute("PF('subscriber').connect('/" + "diegopfw" + "')");
+        eventBus.publish(CHANNEL + sendUser, "[PM] " + username.getUsrNickName() + ": " + privateMessage);
          
         privateMessage = null;
     }
@@ -152,6 +158,14 @@ public class PruebaBean implements Serializable{
 
 	public void setGlobalMessage(String globalMessage) {
 		this.globalMessage = globalMessage;
+	}
+
+	public User getSendUser() {
+		return sendUser;
+	}
+
+	public void setSendUser(User sendUser) {
+		this.sendUser = sendUser;
 	}
 	
 

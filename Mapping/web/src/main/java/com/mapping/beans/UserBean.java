@@ -5,9 +5,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.CloseEvent;
@@ -55,6 +58,13 @@ public class UserBean implements Serializable{
 	
 	@EJB
 	UserRoleEjb userRoleAction;
+	
+	@PostConstruct
+    public void init() {
+		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+		RequestContext requestContext = RequestContext.getCurrentInstance();
+		requestContext.execute("PF('subscriber').connect('/" + ec.getUserPrincipal().getName() + "')");
+    }
 	
 	
 	public void save(){

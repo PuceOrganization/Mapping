@@ -111,7 +111,7 @@
 		                
 		                <p:dialog widgetVar="pChat" header="Private Chat" modal="true" showEffect="fade" hideEffect="fade">
 					        <h:panelGrid id="privateChatContainer" columns="2" columnClasses="vtop,vtop">
-					            <p:outputLabel for="pChatInput" value="To: #{pruebaBean.privateUser.usrName} #{pruebaBean.privateUser.usrLastname}" />
+					            <p:outputLabel for="pChatInput" value="To: #{pruebaBean.sendUser.usrName} #{pruebaBean.sendUser.usrLastname}" />
 					            <p:inputTextarea id="pChatInput" value="#{pruebaBean.privateMessage}" rows="5" cols="30" />
 					 
 					            <p:spacer />

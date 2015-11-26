@@ -13,6 +13,7 @@ import javax.jws.WebService;
 import com.mapping.entities.Enterprise;
 import com.mapping.entities.User;
 import com.mapping.services.EnterpriseEjb;
+import com.mapping.services.EnterpriseRemoteEjb;
 import com.mapping.services.UserEjb;
 
 @Stateless

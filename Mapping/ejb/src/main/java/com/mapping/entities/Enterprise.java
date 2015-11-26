@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 import java.util.Date;
@@ -44,7 +45,7 @@ public class Enterprise implements Serializable {
 
 	//bi-directional many-to-one association to Group
 	@OneToMany(mappedBy="enterprise")
-	@XmlElement(name = "groups")
+	@XmlTransient
 	private List<Group> groups;
 
 	public Enterprise() {
@@ -82,6 +83,7 @@ public class Enterprise implements Serializable {
 		this.entName = entName;
 	}
 
+	
 	public List<Group> getGroups() {
 		return this.groups;
 	}

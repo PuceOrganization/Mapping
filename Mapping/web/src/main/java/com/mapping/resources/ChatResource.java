@@ -48,7 +48,7 @@ public class ChatResource {
 // 
     @OnOpen
     public void onOpen(RemoteEndpoint r, EventBus eventBus) {
-        logger.info("OnOpen {}", r);
+    	logger.info("OnOpen {}", r);
  
         eventBus.publish(room + "/*", new Message(String.format("%s has entered the room '%s'",  username, room), true));
         //eventBus.publish(room + "/*", new Message("entro", true));
