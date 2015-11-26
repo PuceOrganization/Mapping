@@ -42,6 +42,9 @@ public class User implements Serializable {
 
 	@Column(name="USR_PASSWORD")
 	private String usrPassword;
+	
+	@Column(name="USR_IS_LOG")
+	private String usrIslog;
 
 	@Lob
 	@Column(name="USR_PHOTO")
@@ -221,6 +224,14 @@ public class User implements Serializable {
 		userRole.setUser(null);
 
 		return userRole;
+	}
+
+	public String getUsrIslog() {
+		return usrIslog;
+	}
+
+	public void setUsrIslog(String usrIslog) {
+		this.usrIslog = usrIslog;
 	}
 
 }

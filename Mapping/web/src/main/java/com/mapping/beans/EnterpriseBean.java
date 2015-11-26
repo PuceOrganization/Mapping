@@ -20,15 +20,20 @@ import com.mapping.entities.UserRole;
 import com.mapping.services.EnterpriseEjb;
 
 @ManagedBean(name="enterpriseBean")
-@SessionScoped
+
 public class EnterpriseBean implements Serializable{
 
-	//4545asdasdasdasd
 	private static final long serialVersionUID = 71272475901124242L;
 	
 	
 	private Enterprise enterprise = new Enterprise();
 	private Enterprise enterpriseSearch = new Enterprise();
+	
+	
+	
+	
+	private String prueba;
+	
 	
 	
 	private Calendar cal = Calendar.getInstance();
@@ -37,10 +42,6 @@ public class EnterpriseBean implements Serializable{
 	private String regexText = new String();
 	
 	
-	//asdasd
-
-//SDASDASD
-
 	public void setEnterpriseList(List<Enterprise> enterpriseList) {
 		this.enterpriseList = enterpriseList;
 	}
@@ -54,13 +55,14 @@ public class EnterpriseBean implements Serializable{
 	
 	@PostConstruct
 	public void initialize(){
-		 enterpriseList = new ArrayList<Enterprise>();
-		 try {
+		
+		enterpriseList = new ArrayList<Enterprise>();
+		try {
 			enterpriseList = enterpriseAction.findAll();
-		} catch (Exception e) {
-			e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+				}
 		}
-	}
 		
 	public void save(){
 		
@@ -217,6 +219,14 @@ public class EnterpriseBean implements Serializable{
 
 	public List<Enterprise> getEnterpriseList() {
 		return enterpriseList;
+	}
+
+	public String getPrueba() {
+		return prueba;
+	}
+
+	public void setPrueba(String prueba) {
+		this.prueba = prueba;
 	}
 	
 
