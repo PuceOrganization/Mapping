@@ -41,17 +41,24 @@ public class Logout implements Serializable{
 	
 	}
 	
-	public void log(){
+	public void log(){		
 		 ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
 		 RequestContext requestContext = RequestContext.getCurrentInstance();
 		 user = userAction.findByName( ec.getUserPrincipal().getName());
+		 user.setUsrIsLog("true");
+		 try {
+			userAction.merge(user);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		 //requestContext.execute("PF('subscriber').connect('/" + user.getUsrNickName() + "')");
 		 RequestContext.getCurrentInstance().execute("PF('bar').show();");
 	}
 	
 	public void chargeList(){
 		try {
-			userList = userAction.findAll();
+			userList = userAction.findByLog();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -86,10 +93,18 @@ public class Logout implements Serializable{
 	/*marik*/
 	/*marik vos*/
 	public void logout() throws IOException {
+		
 	    ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
-	    System.out.println(ec.getUserPrincipal().getName());
 	    ec.invalidateSession();
-	   
+	    user=userAction.findByName(ec.getUserPrincipal().getName());
+	    user.setUsrIsLog("false");
+	    try {
+			userAction.merge(user);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	    
+	    
 	    ec.redirect(ec.getRequestContextPath() + "/pages/user/user.xhtml");
 	}
 

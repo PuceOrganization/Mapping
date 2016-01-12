@@ -1,8 +1,10 @@
 package com.mapping.services;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+
 import com.mapping.entities.User;
 import com.mapping.utils.GenericDAOImpl;
 
@@ -11,6 +13,18 @@ import com.mapping.utils.GenericDAOImpl;
 public class UserEjb extends GenericDAOImpl<User, String>{
 	public UserEjb(){
 		
+	}
+	
+	public List<User> findByLog(){
+		List<User> list = new ArrayList<User>();		
+		String query = "SELECT u FROM User u where u.usrIsLog like '%true%'";		
+		try {
+			list = find(query);
+		} catch (Exception e) {			
+			// TODO Auto-generated catch block
+			e.printStackTrace();			
+		}		
+		return list;
 	}
 	
 	public List<User> findByUserName(User usr) throws Exception{
